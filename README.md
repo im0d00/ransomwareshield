@@ -78,6 +78,10 @@ Key configuration options:
 | `action` | Response action (`log`, `alert`, `kill_process`) | `log` |
 | `log_file` | Path to the log file | `ransomwareshield.log` |
 
+## Documentation
+
+📖 **[Detailed Guide](docs/GUIDE.md)** — comprehensive documentation covering installation, every configuration option, detection mechanisms (entropy analysis, rate detection, custom rules), Python API reference, CLI reference, architecture overview, troubleshooting, and FAQ.
+
 ## Examples
 
 See the [`examples/`](examples/) directory for:
