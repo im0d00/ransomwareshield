@@ -1,6 +1,7 @@
 """Tests for the RansomwareShield class and ShieldEventHandler."""
 
 import os
+import shutil
 import tempfile
 import time
 
@@ -138,7 +139,7 @@ class TestStartStop:
             t.start()
             shield.start()  # should return after stop() is called
         finally:
-            os.rmdir(tmpdir)
+            shutil.rmtree(tmpdir, ignore_errors=True)
 
     def test_start_no_dirs_returns_immediately(self):
         shield = RansomwareShield()

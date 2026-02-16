@@ -1,6 +1,7 @@
 """Tests for the CLI module."""
 
 import os
+import shutil
 import tempfile
 
 import yaml
@@ -43,5 +44,4 @@ class TestCLI:
         assert shield.entropy_threshold == 7.0
         assert tmpdir in shield._watch_dirs
 
-        os.unlink(cfg_path)
-        os.rmdir(tmpdir)
+        shutil.rmtree(tmpdir, ignore_errors=True)

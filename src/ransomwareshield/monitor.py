@@ -28,6 +28,7 @@ class ShieldEventHandler(FileSystemEventHandler):
         self.entropy_threshold = entropy_threshold
         self.max_changes_per_second = max_changes_per_second
         self.file_extensions = file_extensions or []
+        self._ext_set = {e.lower() for e in self.file_extensions}
         self.action = action
         self.custom_rules: Dict[str, Callable] = custom_rules or {}
 
@@ -38,10 +39,10 @@ class ShieldEventHandler(FileSystemEventHandler):
     # -- helpers --------------------------------------------------------
 
     def _matches_extensions(self, path: str) -> bool:
-        if not self.file_extensions:
+        if not self._ext_set:
             return True
         _, ext = os.path.splitext(path)
-        return ext.lower() in (e.lower() for e in self.file_extensions)
+        return ext.lower() in self._ext_set
 
     def _record_change(self) -> None:
         now = time.time()
@@ -71,9 +72,14 @@ class ShieldEventHandler(FileSystemEventHandler):
 
             print(f"[RansomwareShield] {msg}", file=sys.stderr)
         elif self.action == "kill_process":
-            logger.critical("Attempting to kill suspicious process (SIGSTOP self as demo)")
-            # In a real deployment this would identify the offending PID.
-            # Here we send SIGSTOP to our own process group as a safe demo.
+            logger.critical(
+                "kill_process action triggered — production deployments "
+                "should identify the offending PID; sending SIGSTOP to "
+                "own process as a safe demo."
+            )
+            # NOTE: In a real deployment, you would identify the process
+            # responsible for the suspicious file operations and send it
+            # SIGSTOP/SIGKILL instead of stopping the monitor itself.
             os.kill(os.getpid(), signal.SIGSTOP)
 
     # -- watchdog overrides ---------------------------------------------
