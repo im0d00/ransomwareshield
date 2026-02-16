@@ -1,0 +1,34 @@
+# RansomwareShield Configuration
+# Copy this file and adjust settings for your environment.
+
+# Directories to monitor for suspicious activity.
+watch_directories:
+  - "/home/user/documents"
+  - "/home/user/pictures"
+
+# File extensions to monitor. Leave empty to monitor all files.
+file_extensions:
+  - ".docx"
+  - ".xlsx"
+  - ".pdf"
+  - ".jpg"
+  - ".png"
+
+# Entropy threshold (0.0 to 8.0). Files with entropy above this value
+# after modification are flagged as potentially encrypted.
+# A value of 7.5 is a reasonable default; lower values increase sensitivity.
+entropy_threshold: 7.5
+
+# Maximum number of file change events per second before triggering an alert.
+# Ransomware often modifies many files in rapid succession.
+max_changes_per_second: 10
+
+# Action to take when suspicious activity is detected.
+# Options: "log", "alert", "kill_process"
+action: "log"
+
+# Path to the log file for recording events and alerts.
+log_file: "ransomwareshield.log"
+
+# Enable verbose output for debugging.
+verbose: false
